@@ -9,6 +9,4 @@ public interface UserMapper extends BaseMapper<User> {
 //    @Insert("insert into user (username,password) values (#{username},#{password})")
 //    void insert(LoginVO loginVO);
 
-
-
 }

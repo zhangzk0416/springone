@@ -1,4 +1,4 @@
-package springone.com.demo.demos.web.interceptor;
+package springone.com.demo.demos.web.config;
 
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
