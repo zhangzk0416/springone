@@ -3,9 +3,8 @@ package springone.com.demo.demos.web.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springone.com.demo.demos.web.service.UserService;
-import springone.com.demo.demos.web.dao.User;
+import springone.com.demo.demos.web.POJO.dao.User;
 
-import javax.validation.Valid;
 
 @RequestMapping("/user")
 @RestController
@@ -21,7 +20,7 @@ public class UserController {
     }
 
     @PutMapping
-    public void saveUser(@Valid User loginVO){
+    public void saveUser(User loginVO){
         userService.insert(loginVO);
     }
 }

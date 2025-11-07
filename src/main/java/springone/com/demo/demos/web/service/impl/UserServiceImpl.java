@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import springone.com.demo.demos.web.mapper.UserMapper;
 import springone.com.demo.demos.web.service.UserService;
-import springone.com.demo.demos.web.dao.User;
+import springone.com.demo.demos.web.POJO.dao.User;
 
 @Service
 public class UserServiceImpl implements UserService {
