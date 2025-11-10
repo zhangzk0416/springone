@@ -12,6 +12,7 @@ import springone.com.demo.demos.web.POJO.VO.UserVo;
 import springone.com.demo.demos.web.common.Result;
 import springone.com.demo.demos.web.service.UserService;
 import springone.com.demo.demos.web.POJO.entity.User;
+import springone.com.demo.demos.web.utile.ThreadLocalUserId;
 
 @RequestMapping("/user")
 @RestController
@@ -68,5 +69,15 @@ public class UserController {
         userService.updateUserInfo(userDto);
         return Result.success();
     }
+
+    @PutMapping("/updatePassword")
+    public Result updatePassword(@RequestBody String password){
+        int id = ThreadLocalUserId.getCurrentId();
+        password = DigestUtils.md5DigestAsHex(password.getBytes());
+        userService.updatePassword(id,password);
+        return Result.success();
+    }
+
+
 
 }

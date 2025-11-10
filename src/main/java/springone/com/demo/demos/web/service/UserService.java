@@ -23,4 +23,6 @@ public interface UserService extends IService<User> {
     String sendSmsCode(String phoneNumber);
 
     void updateUserInfo(CreateUserDto userDto);
+
+    void updatePassword(int id, String password);
 }

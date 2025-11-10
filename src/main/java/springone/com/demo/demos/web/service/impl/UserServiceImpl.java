@@ -95,4 +95,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
     public void updateUserInfo(CreateUserDto userDto) {
         userMapper.update(userDto);
     }
+
+    @Override
+    public void updatePassword(int id, String password) {
+        userMapper.updatePassword(id,password);
+    }
 }
