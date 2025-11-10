@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="springone.com.demo.demos.web.dao.UserMapper">
+
+    <insert id="insert">
+        insert into USER (id,username,name,password,phone,id_card,create_time,update_time,create_user,update_user,is_delete)
+        values
+        (#{id},#{username},#{name},#{password},#{phone},#{idCard},#{createTime},#{updateTime},#{createUser},#{updateUser},#{isDelete})
+    </insert>
+<!--    <select id="selectById" resultType="springone.com.demo.demos.web.POJO.entity.User">-->
+<!--        select * from user where id = #{id}-->
+<!--    </select>-->
+
+</mapper>

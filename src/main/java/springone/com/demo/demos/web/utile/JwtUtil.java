@@ -14,7 +14,13 @@ import java.util.Map;
 
 public class JwtUtil {
 
-
+    /**
+     * 创建token
+     * @param secretKey
+     * @param ttlMillis
+     * @param claims
+     * @return
+     */
     public static String createJWT(String secretKey, long ttlMillis, Map<String, Object> claims) {
         // 指定签名使用的算法，HS256 是 HMAC SHA256 算法
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
@@ -33,6 +39,12 @@ public class JwtUtil {
         return builder.compact();
     }
 
+    /**
+     * 解析token
+     * @param secretKey
+     * @param token
+     * @return
+     */
     public static Claims parseJWT(String secretKey, String token) {
         // 解析 JWT，验证签名和获取载荷
         Claims claims = Jwts.parser()

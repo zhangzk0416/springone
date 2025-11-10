@@ -11,5 +11,5 @@ spring:
 
 jwt:
   secret: my_secret
-  expiration: 60*60*24*7
+  expiration: 720000000
   token-name: token

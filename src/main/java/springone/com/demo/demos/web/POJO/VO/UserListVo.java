@@ -1,18 +1,12 @@
-package springone.com.demo.demos.web.POJO.dao;
+package springone.com.demo.demos.web.POJO.VO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
-
-    @NonNull
+public class UserListVo {
     private String username;
-
-    private String password;
-
 }

@@ -1,4 +1,4 @@
-package springone.com.demo.demos.web.config;
+package springone.com.demo.demos.web.interceptor;
 
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import springone.com.demo.demos.web.common.JwtProperties;
+import springone.com.demo.demos.web.utile.ThreadLocalUserId;
+import springone.com.demo.demos.web.common.BaseException;
 import springone.com.demo.demos.web.utile.JwtUtil;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +22,7 @@ public class JwtInterceptor implements HandlerInterceptor {
 
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
+        log.info("进入拦截器");
         if (!(handler instanceof HandlerMethod)) {
             return true;
         }
@@ -28,10 +31,12 @@ public class JwtInterceptor implements HandlerInterceptor {
 
         try {
             Claims claims = JwtUtil.parseJWT(jwtProperties.getSecret(), token);
+            log.info("用户{}发起请求",claims.get("userId"));
+            ThreadLocalUserId.setCurrentId((Integer) claims.get("userId"));
             return true;
         } catch (Exception ex) {
-            response.setStatus(401);
-            return false;
+            log.info("验证失败");
+            throw new BaseException("token验证失败");
         }
     }
 
