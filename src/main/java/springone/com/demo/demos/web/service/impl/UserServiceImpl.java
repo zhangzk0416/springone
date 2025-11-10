@@ -8,6 +8,7 @@ import org.springframework.util.DigestUtils;
 import springone.com.demo.demos.web.POJO.DTO.CreateUserDto;
 import springone.com.demo.demos.web.POJO.DTO.LoginDTO;
 import springone.com.demo.demos.web.POJO.VO.LoginVO;
+import springone.com.demo.demos.web.POJO.VO.UserListVo;
 import springone.com.demo.demos.web.POJO.VO.UserVo;
 import springone.com.demo.demos.web.common.JwtProperties;
 import springone.com.demo.demos.web.common.Result;
@@ -18,7 +19,9 @@ import springone.com.demo.demos.web.POJO.entity.User;
 import springone.com.demo.demos.web.utile.JwtUtil;
 
 import java.security.SecureRandom;
+import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -67,6 +70,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
             throw new BaseException("密码错误");
         }
 
+        // 修改登录时间
+        userMapper.updateLoginTime(user.getId(), LocalDateTime.now());
+
         LoginVO loginVO = new LoginVO();
         BeanUtils.copyProperties(user,loginVO);
 
@@ -99,5 +105,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
     @Override
     public void updatePassword(int id, String password) {
         userMapper.updatePassword(id,password);
+    }
+
+    @Override
+    public List<UserListVo> selectAll() {
+        return userMapper.findAll();
     }
 }

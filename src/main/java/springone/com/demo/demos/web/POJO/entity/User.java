@@ -25,6 +25,8 @@ public class User {
     private int sex;
     private int age;
 
+    private LocalDateTime lastLoginDate;
+
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 

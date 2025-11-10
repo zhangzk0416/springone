@@ -4,9 +4,12 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import springone.com.demo.demos.web.POJO.DTO.CreateUserDto;
 import springone.com.demo.demos.web.POJO.DTO.LoginDTO;
 import springone.com.demo.demos.web.POJO.VO.LoginVO;
+import springone.com.demo.demos.web.POJO.VO.UserListVo;
 import springone.com.demo.demos.web.POJO.VO.UserVo;
 import springone.com.demo.demos.web.POJO.entity.User;
 import springone.com.demo.demos.web.common.Result;
+
+import java.util.List;
 
 public interface UserService extends IService<User> {
 
@@ -25,4 +28,6 @@ public interface UserService extends IService<User> {
     void updateUserInfo(CreateUserDto userDto);
 
     void updatePassword(int id, String password);
+
+    List<UserListVo> selectAll();
 }
