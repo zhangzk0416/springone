@@ -7,6 +7,7 @@ import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 import springone.com.demo.demos.web.POJO.DTO.CreateUserDto;
 import springone.com.demo.demos.web.POJO.DTO.LoginDTO;
+import springone.com.demo.demos.web.POJO.DTO.VerificationCodeDTO;
 import springone.com.demo.demos.web.POJO.VO.LoginVO;
 import springone.com.demo.demos.web.POJO.VO.UserVo;
 import springone.com.demo.demos.web.common.Result;
@@ -72,10 +73,20 @@ public class UserController {
         return Result.success();
     }
 
+    /**
+     * 发送验证码
+     * @param phoneNumber
+     * @return
+     */
     @GetMapping("/send")
     public Result sendSmsCode(String phoneNumber){
-        String message = userService.sendSmsCode(phoneNumber);
+        userService.sendSmsCode(phoneNumber);
         return Result.success();
+    }
+
+    @PostMapping("/loginByPhone")
+    public Result<LoginVO> verificationCodeLogin(@RequestBody VerificationCodeDTO verificationCodeDTO){
+        return Result.success(userService.loginByCode(verificationCodeDTO));
     }
 
     /**

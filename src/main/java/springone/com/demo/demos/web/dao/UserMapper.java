@@ -3,6 +3,7 @@ package springone.com.demo.demos.web.dao;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.*;
 import springone.com.demo.demos.web.POJO.DTO.CreateUserDto;
+import springone.com.demo.demos.web.POJO.VO.LoginVO;
 import springone.com.demo.demos.web.POJO.VO.UserListVo;
 import springone.com.demo.demos.web.POJO.VO.UserVo;
 import springone.com.demo.demos.web.POJO.entity.User;
@@ -33,4 +34,7 @@ public interface UserMapper extends BaseMapper<User>{
 
     @Update("update user set last_login_date = #{now} where id = #{id}")
     void updateLoginTime(@Param("id") Integer id,@Param("now") LocalDateTime now);
+
+    @Select("select username,name,phone,id_card,sex,age from user where phone = #{phone}")
+    LoginVO selectByPhone(String phone);
 }

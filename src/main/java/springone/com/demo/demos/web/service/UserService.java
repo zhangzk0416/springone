@@ -3,6 +3,7 @@ package springone.com.demo.demos.web.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import springone.com.demo.demos.web.POJO.DTO.CreateUserDto;
 import springone.com.demo.demos.web.POJO.DTO.LoginDTO;
+import springone.com.demo.demos.web.POJO.DTO.VerificationCodeDTO;
 import springone.com.demo.demos.web.POJO.VO.LoginVO;
 import springone.com.demo.demos.web.POJO.VO.UserListVo;
 import springone.com.demo.demos.web.POJO.VO.UserVo;
@@ -23,11 +24,13 @@ public interface UserService extends IService<User> {
 
     Result login(LoginDTO loginDTO);
 
-    String sendSmsCode(String phoneNumber);
+    void sendSmsCode(String phoneNumber);
 
     void updateUserInfo(CreateUserDto userDto);
 
     void updatePassword(int id, String password);
 
     List<UserListVo> selectAll();
+
+    LoginVO loginByCode(VerificationCodeDTO verificationCodeDTO);
 }

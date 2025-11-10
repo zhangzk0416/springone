@@ -1,12 +1,15 @@
 package springone.com.demo.demos.web.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 import springone.com.demo.demos.web.POJO.DTO.CreateUserDto;
 import springone.com.demo.demos.web.POJO.DTO.LoginDTO;
+import springone.com.demo.demos.web.POJO.DTO.VerificationCodeDTO;
 import springone.com.demo.demos.web.POJO.VO.LoginVO;
 import springone.com.demo.demos.web.POJO.VO.UserListVo;
 import springone.com.demo.demos.web.POJO.VO.UserVo;
@@ -23,8 +26,10 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Service
+@Slf4j
 public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements UserService {
 
     @Autowired
@@ -32,6 +37,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
 
     @Autowired
     private JwtProperties jwtProperties;
+
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
 
     @Override
     public void insert(CreateUserDto createUserDto) {
@@ -65,7 +73,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         }
 
         password = DigestUtils.md5DigestAsHex(password.getBytes());
-        System.out.println(password);
+//        System.out.println(password);
         if (!password.equals(user.getPassword())) {
             throw new BaseException("密码错误");
         }
@@ -89,12 +97,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
     }
 
     @Override
-    public String sendSmsCode(String phoneNumber) {
+    public void sendSmsCode(String phoneNumber) {
 
         SecureRandom secureRandom = new SecureRandom();
-        int sixDigitNumber = secureRandom.nextInt(900000) + 100000;
+        int sixDigitNumber = secureRandom.nextInt(899999) + 100000;
 
-        return null;
+        String cacheKey = "sms_code:" + phoneNumber;
+        redisTemplate.opsForValue().set(cacheKey, String.valueOf(sixDigitNumber), 60, TimeUnit.SECONDS);
+
+        log.info("发送验证码{}",String.valueOf(sixDigitNumber));
+        return;
     }
 
     @Override
@@ -110,5 +122,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
     @Override
     public List<UserListVo> selectAll() {
         return userMapper.findAll();
+    }
+
+    @Override
+    public LoginVO loginByCode(VerificationCodeDTO verificationCodeDTO) {
+        String key = "sms_code:" + verificationCodeDTO.getPhone();
+        String code = redisTemplate.opsForValue().get(key);
+        if (!code.equals(verificationCodeDTO.getCode())){
+            throw new BaseException("验证码错误");
+        }
+        return userMapper.selectByPhone(verificationCodeDTO.getPhone());
     }
 }
