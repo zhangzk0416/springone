@@ -131,6 +131,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         if (!code.equals(verificationCodeDTO.getCode())){
             throw new BaseException("验证码错误");
         }
-        return userMapper.selectByPhone(verificationCodeDTO.getPhone());
+        LoginVO loginVO = userMapper.selectByPhone(verificationCodeDTO.getPhone());
+        if (loginVO==null){
+            throw new BaseException("当前手机号未注册");
+        }
+        return loginVO;
     }
 }
